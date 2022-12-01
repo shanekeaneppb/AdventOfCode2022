@@ -6,14 +6,6 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "AdventOfCode2022/1.0.0": {
-        "dependencies": {
-          "AdventOfCode2022.Day1": "1.0.0"
-        },
-        "runtime": {
-          "AdventOfCode2022.dll": {}
-        }
-      },
       "AdventOfCode2022.Day1/1.0.0": {
         "runtime": {
           "AdventOfCode2022.Day1.dll": {}
@@ -22,11 +14,6 @@
     }
   },
   "libraries": {
-    "AdventOfCode2022/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
     "AdventOfCode2022.Day1/1.0.0": {
       "type": "project",
       "serviceable": false,

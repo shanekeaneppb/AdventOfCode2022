@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2022", "AdventOfCode2022\AdventOfCode2022.csproj", "{F92E39F8-197C-4DBE-B506-DA090B54B604}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode2022", "AdventOfCode2022\AdventOfCode2022.csproj", "{F92E39F8-197C-4DBE-B506-DA090B54B604}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2022.Day1", "AdventOfCode2022.Day1\AdventOfCode2022.Day1.csproj", "{7B0C5EC0-6974-4F75-90E6-0F1DFC542DFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F92E39F8-197C-4DBE-B506-DA090B54B604}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F92E39F8-197C-4DBE-B506-DA090B54B604}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F92E39F8-197C-4DBE-B506-DA090B54B604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B0C5EC0-6974-4F75-90E6-0F1DFC542DFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B0C5EC0-6974-4F75-90E6-0F1DFC542DFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B0C5EC0-6974-4F75-90E6-0F1DFC542DFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B0C5EC0-6974-4F75-90E6-0F1DFC542DFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
