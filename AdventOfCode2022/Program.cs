@@ -13,6 +13,8 @@ namespace AdventOfCode2022
             //Day1Solutions.Part2();
 
             Day2Solutions.Part1();
+            Console.WriteLine();
+            Day2Solutions.Part2();
         }
     }
   

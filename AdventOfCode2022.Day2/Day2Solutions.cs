@@ -7,6 +7,12 @@
         Scissors = 3
     }
 
+    enum Outcome
+    {
+        Win = 1,
+        Lose = 2,
+        Draw = 3
+    }
 
 
     public class Day2Solutions
@@ -29,13 +35,17 @@
             int playerPoints = 0;
             using (StreamReader file = new StreamReader(@"../../../../AdventOfCode2022.Day2/input.txt"))
             {
-                string[] choices = new string[2];
-                string ln;
+                string[] inputs = new string[2];
+                string ln; 
+                Choice opponentChoice;
+                Choice playerChoice;
 
                 while ((ln = file.ReadLine()) != null)
                 {
-                    choices = ln.Split();
-                    playerPoints += Play(OpponentStrat[choices[0]], PlayerStrat[choices[1]]);
+                    inputs = ln.Split();
+                    opponentChoice = OpponentStrat[inputs[0]];
+                    playerChoice = PlayerStrat[inputs[1]];
+                    playerPoints += Play(opponentChoice, playerChoice);
                 }
                 file.Close();
             }
@@ -51,36 +61,42 @@
                 {"C", Choice.Scissors}
             };
 
-            Dictionary<string, Choice> PlayerStrat = new Dictionary<string, Choice>()
+            Dictionary<string, Outcome> OutcomeStrat = new Dictionary<string, Outcome>()
             {
-                {"X", Choice.Rock},
-                {"Y", Choice.Paper},
-                {"Z", Choice.Scissors}
+                {"X", Outcome.Lose},
+                {"Y", Outcome.Draw},
+                {"Z", Outcome.Win}
             };
             int playerPoints = 0;
             using (StreamReader file = new StreamReader(@"../../../../AdventOfCode2022.Day2/input.txt"))
             {
-                string[] choices = new string[2];
+                string[] inputs = new string[2];
                 string ln;
+                Outcome gameOutcome;
+                Choice opponentChoice;
+                Choice playerChoice;
 
                 while ((ln = file.ReadLine()) != null)
                 {
-                    choices = ln.Split();
-                    playerPoints += Play(OpponentStrat[choices[0]], PlayerStrat[choices[1]]);
+                    inputs = ln.Split();
+                    opponentChoice = OpponentStrat[inputs[0]];
+                    gameOutcome = OutcomeStrat[inputs[1]];
+                    playerChoice = GetPlayerChoice(opponentChoice, gameOutcome);
+                    playerPoints += Play(opponentChoice, playerChoice);
                 }
                 file.Close();
             }
-            Console.WriteLine($"Day 2, Part 1 Solution:");
+            Console.WriteLine($"Day 2, Part 2 Solution:");
             Console.WriteLine($"Score = {playerPoints}");
         }
 
-        private static int Play(Choice opponent, Choice player)
+        private static int Play(Choice opponentChoice, Choice playerChoice)
         {
             int score = 0;
-            if(player == Choice.Rock)
+            if(playerChoice == Choice.Rock)
             {
                 score += 1;
-                switch (opponent)
+                switch (opponentChoice)
                 {
                     case Choice.Rock:
                         score += 3;
@@ -91,10 +107,10 @@
                 }   
             }
 
-            else if (player == Choice.Paper)
+            else if (playerChoice == Choice.Paper)
             {
                 score += 2;
-                switch (opponent)
+                switch (opponentChoice)
                 {
                     case Choice.Rock:
                         score += 6;
@@ -105,10 +121,10 @@
                 }
             }
 
-            else if (player == Choice.Scissors)
+            else if (playerChoice == Choice.Scissors)
             {
                 score += 3;
-                switch (opponent)
+                switch (opponentChoice)
                 {
                     case Choice.Paper:
                         score += 6;
@@ -119,6 +135,61 @@
                 }
             }
             return score;
+        }
+
+        private static Choice GetPlayerChoice(Choice opponentChoice, Outcome outcome)
+        {
+            Choice playerChoice = Choice.Rock;
+
+            if (opponentChoice == Choice.Rock)
+            {
+                switch (outcome)
+                {
+                    case Outcome.Win:
+                        playerChoice = Choice.Paper;
+                        break;
+                    case Outcome.Lose:
+                        playerChoice = Choice.Scissors;
+                        break;
+                    case Outcome.Draw:
+                        playerChoice = opponentChoice;
+                        break;
+                }
+            }
+
+            else if (opponentChoice == Choice.Paper)
+            {
+                switch (outcome)
+                {
+                    case Outcome.Win:
+                        playerChoice = Choice.Scissors;
+                        break;
+                    case Outcome.Lose:
+                        playerChoice = Choice.Rock;
+                        break;
+                    case Outcome.Draw:
+                        playerChoice = opponentChoice;
+                        break;
+                }
+            }
+
+            else if (opponentChoice == Choice.Scissors)
+            {
+                switch (outcome)
+                {
+                    case Outcome.Win:
+                        playerChoice = Choice.Rock;
+                        break;
+                    case Outcome.Lose:
+                        playerChoice = Choice.Paper;
+                        break;
+                    case Outcome.Draw:
+                        playerChoice = opponentChoice;
+                        break;
+                }
+            }
+
+            return playerChoice;
         }
     }
 }
