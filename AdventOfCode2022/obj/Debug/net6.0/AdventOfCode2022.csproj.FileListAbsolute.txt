@@ -18,3 +18,5 @@ C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022\bin\Debug\net6.0\Adve
 C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022\obj\Debug\net6.0\AdventOfCode2022.csproj.CopyComplete
 C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.Day2.dll
 C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.Day2.pdb
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.Day3.dll
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.Day3.pdb
