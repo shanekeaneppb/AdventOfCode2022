@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode2022.Day5
@@ -8,43 +9,22 @@ namespace AdventOfCode2022.Day5
         public static void Part1()
         {
 
-            List<string> stackStrings = new List<string>();
-            List<Stack<string>> stacks;
-            using (StreamReader file = new StreamReader(@"../../../../AdventOfCode2022.Day5/input.txt"))
-            {
-                string ln;
-                int i;
-                int move, from, to;
-                while ((ln = file.ReadLine()) != "")
-                {
-                    stackStrings.Add(ln);
-                }
-                stackStrings.RemoveAt(stackStrings.Count - 1);
-                stacks = BuildStacks(stackStrings);
-                Regex regex = new Regex(@"move (?<MOVE>\d+) from (?<FROM>\d+) to (?<TO>\d+)");
-                while ((ln = file.ReadLine()) != null)
-                {
-                    var r = regex.Matches(ln);
-                    move = Convert.ToInt32(r[0].Groups[1].Value);
-                    from = Convert.ToInt32(r[0].Groups[2].Value) - 1;
-                    to = Convert.ToInt32(r[0].Groups[3].Value) - 1;
-                    RearrangeCrates9000(stacks, move, from, to);
-                }
-            }
-            Console.Write($"Day 5, Part 1 Solution: ");
-            foreach (Stack<string> stack in stacks)
-            {
-                Console.Write(stack.Peek());
-            }
+            string solution = Solve(RearrangeCrates9000);
+            Console.Write($"Day 5, Part 1 Solution: {solution}");
         }
         public static void Part2()
+        {
+            string solution = Solve(RearrangeCrates9001);
+            Console.Write($"Day 5, Part 2 Solution: {solution}");
+        }
+
+        private static string Solve(Action<List<Stack<string>>, int, int, int> craneFunction)
         {
             List<string> stackStrings = new List<string>();
             List<Stack<string>> stacks;
             using (StreamReader file = new StreamReader(@"../../../../AdventOfCode2022.Day5/input.txt"))
             {
                 string ln;
-                int i;
                 int move, from, to;
                 while ((ln = file.ReadLine()) != "")
                 {
@@ -59,14 +39,15 @@ namespace AdventOfCode2022.Day5
                     move = Convert.ToInt32(r[0].Groups[1].Value);
                     from = Convert.ToInt32(r[0].Groups[2].Value) - 1;
                     to = Convert.ToInt32(r[0].Groups[3].Value) - 1;
-                    RearrangeCrates9001(stacks, move, from, to);
+                    craneFunction(stacks, move, from, to);
                 }
             }
-            Console.Write($"Day 5, Part 2 Solution: ");
+            StringBuilder solution = new StringBuilder();
             foreach (Stack<string> stack in stacks)
             {
-                Console.Write(stack.Peek());
+                solution.Append(stack.Peek());
             }
+            return solution.ToString();
         }
 
         private static List<Stack<string>> BuildStacks(List<string> stacks)
