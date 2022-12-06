@@ -41,6 +41,16 @@
         "runtime": {
           "bin/placeholder/AdventOfCode2022.Day5.dll": {}
         }
+      },
+      "AdventOfCode2022.Day6/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/AdventOfCode2022.Day6.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AdventOfCode2022.Day6.dll": {}
+        }
       }
     }
   },
@@ -64,6 +74,11 @@
       "type": "project",
       "path": "../AdventOfCode2022.Day5/AdventOfCode2022.Day5.csproj",
       "msbuildProject": "../AdventOfCode2022.Day5/AdventOfCode2022.Day5.csproj"
+    },
+    "AdventOfCode2022.Day6/1.0.0": {
+      "type": "project",
+      "path": "../AdventOfCode2022.Day6/AdventOfCode2022.Day6.csproj",
+      "msbuildProject": "../AdventOfCode2022.Day6/AdventOfCode2022.Day6.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -71,7 +86,8 @@
       "AdventOfCode2022.Day1 >= 1.0.0",
       "AdventOfCode2022.Day2 >= 1.0.0",
       "AdventOfCode2022.Day3 >= 1.0.0",
-      "AdventOfCode2022.Day5 >= 1.0.0"
+      "AdventOfCode2022.Day5 >= 1.0.0",
+      "AdventOfCode2022.Day6 >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -115,6 +131,9 @@
             },
             "C:\\Users\\keanes2\\sandbox\\AdventOfCode2022\\AdventOfCode2022.Day5\\AdventOfCode2022.Day5.csproj": {
               "projectPath": "C:\\Users\\keanes2\\sandbox\\AdventOfCode2022\\AdventOfCode2022.Day5\\AdventOfCode2022.Day5.csproj"
+            },
+            "C:\\Users\\keanes2\\sandbox\\AdventOfCode2022\\AdventOfCode2022.Day6\\AdventOfCode2022.Day6.csproj": {
+              "projectPath": "C:\\Users\\keanes2\\sandbox\\AdventOfCode2022\\AdventOfCode2022.Day6\\AdventOfCode2022.Day6.csproj"
             }
           }
         }
