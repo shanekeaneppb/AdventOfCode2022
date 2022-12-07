@@ -1,0 +1,12 @@
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022.Day7\obj\Debug\net6.0\AdventOfCode2022.Day7.csproj.AssemblyReference.cache
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022.Day7\obj\Debug\net6.0\AdventOfCode2022.Day7.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022.Day7\obj\Debug\net6.0\AdventOfCode2022.Day7.AssemblyInfoInputs.cache
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022.Day7\obj\Debug\net6.0\AdventOfCode2022.Day7.AssemblyInfo.cs
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022.Day7\obj\Debug\net6.0\AdventOfCode2022.Day7.csproj.CoreCompileInputs.cache
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022.Day7\bin\Debug\net6.0\AdventOfCode2022.Day7.deps.json
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022.Day7\bin\Debug\net6.0\AdventOfCode2022.Day7.dll
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022.Day7\bin\Debug\net6.0\AdventOfCode2022.Day7.pdb
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022.Day7\obj\Debug\net6.0\AdventOfCode2022.Day7.dll
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022.Day7\obj\Debug\net6.0\refint\AdventOfCode2022.Day7.dll
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022.Day7\obj\Debug\net6.0\AdventOfCode2022.Day7.pdb
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022.Day7\obj\Debug\net6.0\ref\AdventOfCode2022.Day7.dll
