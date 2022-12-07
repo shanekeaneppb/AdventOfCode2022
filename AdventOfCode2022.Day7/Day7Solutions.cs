@@ -2,12 +2,17 @@
 
 namespace AdventOfCode2022.Day7
 {
-    class Directory
+    class Directory : IComparable<Directory>
     {
         public string Name;
         public Directory Parent = null;
         public List<Directory> Directories = new List<Directory>();
         public int Size = 0;
+
+        public int CompareTo(Directory other)
+        {
+            return this.Size - other.Size;
+        }
 
         public override string ToString()
         {
@@ -16,6 +21,8 @@ namespace AdventOfCode2022.Day7
                 parentName = this.Parent.Name;
             return $"{Name}: (size={Size}, parent={parentName})";
         }
+
+        
     }
 
     public class Day7Solutions
@@ -134,10 +141,12 @@ namespace AdventOfCode2022.Day7
             string ln;
             int dirSize;
             int totalSpace = 70000000;
+            int availableSpace;
             int requiredSpace = 30000000;
             int spaceToDelete;
             Directory root = new Directory();
             root.Name = "/";
+            directories.Add(root);
             Directory cd = null, temp = null;
             Match match;
 
@@ -168,9 +177,6 @@ namespace AdventOfCode2022.Day7
                     else if (match.Groups[1].ToString() == "..")
                     {
                         dirSize = cd.Size;
-                        //Console.WriteLine($"dirSize = {dirSize}");
-                        if (dirSize <= threshold)
-                            smallDirs.Add(cd);
                         cd = cd.Parent;
                         cd.Size += dirSize;
                     }
@@ -178,6 +184,7 @@ namespace AdventOfCode2022.Day7
                     {
                         temp = cd ?? new Directory();
                         cd = new Directory();
+                        directories.Add(cd);
                         cd.Parent = temp;
                         cd.Name = match.Groups[1].ToString();
                     }
@@ -185,13 +192,11 @@ namespace AdventOfCode2022.Day7
                 match = lsRegex.Match(line);
                 if (match.Success)
                 {
-                    //Console.WriteLine();
                     continue;
                 }
                 match = dirRegex.Match(line);
                 if (match.Success)
                 {
-                    // Console.WriteLine();
                     continue;
                 }
                 match = fileRegex.Match(line);
@@ -199,23 +204,35 @@ namespace AdventOfCode2022.Day7
                 {
                     cd.Size += Convert.ToInt32(match.Groups[1].ToString());
                 }
-                //Console.WriteLine($"cd = {cd}");
-                //Console.WriteLine();
             }
             while (cd.Parent != null)
             {
                 dirSize = cd.Size;
-                if (dirSize <= threshold)
-                    smallDirs.Add(cd);
                 cd = cd.Parent;
                 cd.Size += dirSize;
             }
 
 
-            int totalSize = 0;
-            foreach (Directory dir in smallDirs)
-                totalSize += dir.Size;
-            Console.Write($"Day 6, Part 2 Solution: ");
+            Directory directoryToDelte = null;
+            directories.Sort();
+            //directories.Reverse();
+            availableSpace = totalSpace - directories[directories.Count-1].Size;
+            spaceToDelete = requiredSpace - availableSpace;
+            foreach (Directory dir in directories)
+            {
+                if (dir.Size >= spaceToDelete)
+                {
+                    directoryToDelte = dir;
+                    break;
+                }
+
+                //Console.WriteLine($"{dir.Name}: {dir.Size}");
+            }
+            if (directoryToDelte == null)
+                directoryToDelte = directories[directories.Count - 1];
+
+            Console.Write($"Day 7, Part 1 Solution: {directoryToDelte.Size}");
+
         }
     }
 }
