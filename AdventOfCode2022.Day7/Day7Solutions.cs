@@ -48,176 +48,27 @@ namespace AdventOfCode2022.Day7
         }
         public static void Part1()
         {
-            List<string> lines = new List<string>();
-            List<Directory> smallDirs = new List<Directory> ();
-            string ln;
-            int dirSize;
             int threshold = 100000;
-            Directory root = new Directory();
-            root.Name = "/";
-            Directory cd = null, temp = null;
-            Match match;
-
-            Regex cdRegex = new Regex(@"[$] cd (\S+)");
-            Regex lsRegex = new Regex(@"[$] ls");
-            Regex dirRegex = new Regex(@"dir (\S+)");
-            Regex fileRegex = new Regex(@"(\d+) (\S+)");
-
-            using (StreamReader reader = new StreamReader(@"../../../../AdventOfCode2022.Day7/input.txt"))
-            {
-                
-                while((ln = reader.ReadLine()) != null)
-                {
-                    lines.Add(ln);
-                }
-            }
-            
-            foreach(string line in lines)
-            {
-                //Console.WriteLine($"Line = {line}");
-                match = cdRegex.Match(line);
-                if (match.Success)
-                {
-                    if (match.Groups[1].ToString() == "/")
-                    {
-                        cd = root;
-                    }
-                    else if (match.Groups[1].ToString() == "..")
-                    {
-                        dirSize = cd.Size;
-                        //Console.WriteLine($"dirSize = {dirSize}");
-                        if(dirSize <= threshold)
-                            smallDirs.Add(cd);
-                        cd = cd.Parent;
-                        cd.Size += dirSize;
-                    }
-                    else
-                    {
-                        temp = cd ?? new Directory();
-                        cd = new Directory();
-                        cd.Parent = temp;
-                        cd.Name = match.Groups[1].ToString();
-                    }
-                }
-                match = lsRegex.Match(line);
-                if (match.Success)
-                {
-                    //Console.WriteLine();
-                    continue;
-                }
-                match = dirRegex.Match(line);
-                if (match.Success)
-                {
-                   // Console.WriteLine();
-                    continue;
-                }
-                match = fileRegex.Match(line);
-                if (match.Success)
-                {
-                    cd.Size += Convert.ToInt32(match.Groups[1].ToString());
-                }
-                //Console.WriteLine($"cd = {cd}");
-                //Console.WriteLine();
-            }
-            while(cd.Parent != null)
-            {
-                dirSize = cd.Size;
-                if (dirSize <= threshold)
-                    smallDirs.Add(cd);
-                cd = cd.Parent;
-                cd.Size += dirSize;
-            }
-
-
             int totalSize = 0;
-            foreach (Directory dir in smallDirs)
-                totalSize += dir.Size;
+            var directories = BuildDirectoryTree("input.txt");
+            foreach(int size in (directories.Select(dir => dir.Size).Where(s => s < threshold)))
+                totalSize += size;
             Console.Write($"Day 7, Part 1 Solution: {totalSize}");
         }
         public static void Part2()
         {
-            List<string> lines = new List<string>();
-            List<Directory> directories = new List<Directory>();
-            string ln;
-            int dirSize;
             int totalSpace = 70000000;
-            int availableSpace;
             int requiredSpace = 30000000;
-            int spaceToDelete;
-            Directory root = new Directory();
-            root.Name = "/";
-            directories.Add(root);
-            Directory cd = null, temp = null;
-            Match match;
-
-            Regex cdRegex = new Regex(@"[$] cd (\S+)");
-            Regex lsRegex = new Regex(@"[$] ls");
-            Regex dirRegex = new Regex(@"dir (\S+)");
-            Regex fileRegex = new Regex(@"(\d+) (\S+)");
-
-            using (StreamReader reader = new StreamReader(@"../../../../AdventOfCode2022.Day7/input.txt"))
-            {
-
-                while ((ln = reader.ReadLine()) != null)
-                {
-                    lines.Add(ln);
-                }
-            }
-
-            foreach (string line in lines)
-            {
-                //Console.WriteLine($"Line = {line}");
-                match = cdRegex.Match(line);
-                if (match.Success)
-                {
-                    if (match.Groups[1].ToString() == "/")
-                    {
-                        cd = root;
-                    }
-                    else if (match.Groups[1].ToString() == "..")
-                    {
-                        dirSize = cd.Size;
-                        cd = cd.Parent;
-                        cd.Size += dirSize;
-                    }
-                    else
-                    {
-                        temp = cd ?? new Directory();
-                        cd = new Directory();
-                        directories.Add(cd);
-                        cd.Parent = temp;
-                        cd.Name = match.Groups[1].ToString();
-                    }
-                }
-                match = lsRegex.Match(line);
-                if (match.Success)
-                {
-                    continue;
-                }
-                match = dirRegex.Match(line);
-                if (match.Success)
-                {
-                    continue;
-                }
-                match = fileRegex.Match(line);
-                if (match.Success)
-                {
-                    cd.Size += Convert.ToInt32(match.Groups[1].ToString());
-                }
-            }
-            while (cd.Parent != null)
-            {
-                dirSize = cd.Size;
-                cd = cd.Parent;
-                cd.Size += dirSize;
-            }
-
-
+            int dirSize, availableSpace, spaceToDelete;
             Directory directoryToDelte = null;
+
+            List<Directory> directories = BuildDirectoryTree("input.txt");
+
             directories.Sort();
-            //directories.Reverse();
+            // Since directories are now sorted, this takes the size of the root directory from the total space available
             availableSpace = totalSpace - directories[directories.Count-1].Size;
             spaceToDelete = requiredSpace - availableSpace;
+
             foreach (Directory dir in directories)
             {
                 if (dir.Size >= spaceToDelete)
@@ -226,13 +77,71 @@ namespace AdventOfCode2022.Day7
                     break;
                 }
 
-                //Console.WriteLine($"{dir.Name}: {dir.Size}");
             }
+            // Checks that a directory was actually selected
             if (directoryToDelte == null)
                 directoryToDelte = directories[directories.Count - 1];
 
             Console.Write($"Day 7, Part 1 Solution: {directoryToDelte.Size}");
+        }
+        
+        private static List<Directory> BuildDirectoryTree(string inputFile)
+        {
+            List<Directory> directories = new List<Directory>();
+            int dirSize;
+            // setup the root directory
+            Directory root = new Directory();
+            root.Name = "/";
+            directories.Add(root);
+            Directory cd = null, temp = null;
+            Match match;
+            // Regex expression to match different commands (dir and ls commands can just be skipped)
+            Regex cdRegex = new Regex(@"[$] cd (\S+)");
+            Regex fileRegex = new Regex(@"(\d+) (\S+)");
 
+            using (StreamReader reader = new StreamReader(@"../../../../AdventOfCode2022.Day7/" + inputFile))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    match = cdRegex.Match(line);
+                    if (match.Success)
+                    {
+                        if (match.Groups[1].ToString() == "/")
+                        {
+                            cd = root;
+                        }
+                        else if (match.Groups[1].ToString() == "..")
+                        {
+                            dirSize = cd.Size;
+                            cd = cd.Parent;
+                            cd.Size += dirSize;
+                        }
+                        else
+                        {
+                            temp = cd ?? new Directory();
+                            cd = new Directory();
+                            directories.Add(cd);
+                            cd.Parent = temp;
+                            cd.Name = match.Groups[1].ToString();
+                        }
+                    }
+                    match = fileRegex.Match(line);
+                    if (match.Success)
+                    {
+                        cd.Size += Convert.ToInt32(match.Groups[1].ToString());
+                    }
+                }
+            }
+            // This travels back up the tree to root, updating the size of any enclosing directories missed above
+            while (cd.Parent != null)
+            {
+                dirSize = cd.Size;
+                cd = cd.Parent;
+                cd.Size += dirSize;
+            }
+
+            return directories;
         }
     }
 }
