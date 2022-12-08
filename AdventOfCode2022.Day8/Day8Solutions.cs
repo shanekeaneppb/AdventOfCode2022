@@ -1,28 +1,15 @@
 ﻿using System.Data;
-using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace AdventOfCode2022.Day8
 {
     public class Day8Solutions
     {
-        public static List<int[]> grid = new List<int[]>();
-        public static int gridWidth, gridHeight;
-
-
         public static void Part1()
         {
             int visibleTrees = 0;
-            using (StreamReader reader = new StreamReader(@"../../../../AdventOfCode2022.Day8/input.txt"))
-            {
-                string line;
-                while((line = reader.ReadLine()) != null)
-                {
-                    grid.Add(line.ToArray().Select(c => Convert.ToInt32(c)).ToArray());
-                }
-            }
-            gridWidth = grid.Count;
-            gridHeight = grid.First().Length;
+            var grid = BuildForestGrid("input.txt");
+            int gridWidth = grid.Count, gridHeight = grid.First().Length;
+
             for (int row = 0; row < gridWidth; row++)
             {
                 for (int column = 0; column < gridHeight; column++)
@@ -40,16 +27,9 @@ namespace AdventOfCode2022.Day8
         public static void Part2()
         {
             int maxScenicScore = 0;
-            using (StreamReader reader = new StreamReader(@"../../../../AdventOfCode2022.Day8/input.txt"))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    grid.Add(line.ToArray().Select(c => c.ToString()).ToArray().Select(c => Convert.ToInt32(c)).Select(c => Convert.ToInt32(c)).ToArray());
-                }
-            }
-            gridWidth = grid.Count;
-            gridHeight = grid.First().Length;
+            var grid = BuildForestGrid("input.txt");
+            int gridWidth = grid.Count, gridHeight = grid.First().Length;
+
             for (int row = 0; row < gridWidth; row++)
             {
                 for (int column = 0; column < gridHeight; column++)
@@ -58,19 +38,17 @@ namespace AdventOfCode2022.Day8
                     {
                         continue;
                     }
-                    //Console.Write(GetScenicScore(grid, row, column) + " ");
                     maxScenicScore = Math.Max(maxScenicScore, GetScenicScore(grid, row, column));
                 }
-                //Console.WriteLine();
             }
             Console.Write($"Day 8, Part 2 Solution: {maxScenicScore}");
         }
 
         private static bool IsHidden(List<int[]> grid, int row, int column)
         {
-            int currentSize = grid[row][column];
+            int i, gridWidth = grid.Count, gridHeight = grid.First().Length, currentSize = grid[row][column];
             bool hiddenAbove = false, hiddenBelow = false, hiddenLeft = false, hiddenRight = false;
-            int i;
+            // Left of tree
             for(i = 0; i < column; i++)
             {
                 if (grid[row][i] >= currentSize)
@@ -78,8 +56,8 @@ namespace AdventOfCode2022.Day8
                     hiddenLeft = true;
                     break;
                 }
-
             }
+            // Right of tree
             for (i = column+1; i < gridWidth; i++)
             {
                 if (grid[row][i] >= currentSize)
@@ -87,8 +65,8 @@ namespace AdventOfCode2022.Day8
                     hiddenRight = true;
                     break;
                 }
-
             }
+            // Above tree
             for (i = 0; i < row; i++)
             {
                 if (grid[i][column] >= currentSize)
@@ -96,8 +74,8 @@ namespace AdventOfCode2022.Day8
                     hiddenAbove = true;
                     break;
                 }
-
             }
+            // Below tree
             for (i = row+1; i < gridHeight; i++)
             {
                 if (grid[i][column] >= currentSize)
@@ -105,14 +83,13 @@ namespace AdventOfCode2022.Day8
                     hiddenBelow = true;
                     break;
                 }
-
             }
             return (hiddenAbove && hiddenBelow && hiddenLeft && hiddenRight);
         }
 
-        public static int GetScenicScore(List<int[]> grid, int row, int column)
+        private static int GetScenicScore(List<int[]> grid, int row, int column)
         {
-            int i, viewIndex = 1, scenicScore = 1, currentSize = grid[row][column];
+            int i, viewIndex = 1, scenicScore = 1, gridWidth = grid.Count, gridHeight = grid.First().Length, currentSize = grid[row][column];
             // Going left
             for (i = column - 1; i >= 0; i--)
             {
@@ -156,17 +133,10 @@ namespace AdventOfCode2022.Day8
             return scenicScore;
         }
 
-
-
-
-        
-
-
-        public static void Test()
+        private static List<int[]> BuildForestGrid(string file)
         {
             List<int[]> grid = new List<int[]>();
-            int gridWidth, gridHeight;
-            using (StreamReader reader = new StreamReader(@"../../../../AdventOfCode2022.Day8/test.txt"))
+            using (StreamReader reader = new StreamReader(@"../../../../AdventOfCode2022.Day8/" + file))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -174,9 +144,7 @@ namespace AdventOfCode2022.Day8
                     grid.Add(line.ToArray().Select(c => Convert.ToInt32(c)).ToArray());
                 }
             }
-            Console.WriteLine();
-            
-
+            return grid;
         }
     }
 }
