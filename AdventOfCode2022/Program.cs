@@ -42,9 +42,14 @@ namespace AdventOfCode2022
             //Console.WriteLine();
             //Day7Solutions.Part2();
 
-            Day8Solutions.Part1();
-            Console.WriteLine();
+            //Day8Solutions.Part1();
+            //Day8Solutions.Test();
+            //Console.WriteLine();
             Day8Solutions.Part2();
+            //string s = "shanekeane";
+            //var a = s.ToArray();
+            //Console.WriteLine();
+
         }
     }
   
