@@ -27,25 +27,6 @@ namespace AdventOfCode2022.Day7
 
     public class Day7Solutions
     {
-
-        public static void Part11()
-        {
-            string cd = "$ cd ..";
-            string ls = "$ ls";
-            string dir = "dir hkl";
-            string file = "62596 h.lst";
-            Regex cdRegex = new Regex(@"[$] cd (\S+)");
-            Regex lsRegex = new Regex(@"[$] ls");
-            Regex dirRegex = new Regex(@"dir (\S+)");
-            Regex fileRegex = new Regex(@"(\d+) \S+");
-            Match match;
-            match = cdRegex.Match(cd);
-            var c = match.Groups[1];
-            match = lsRegex.Match(ls);
-            match = dirRegex.Match(dir);
-            match = fileRegex.Match(file);
-            Console.WriteLine();
-        }
         public static void Part1()
         {
             int threshold = 100000;
