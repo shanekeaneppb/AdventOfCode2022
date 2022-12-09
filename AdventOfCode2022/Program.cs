@@ -6,6 +6,7 @@ using AdventOfCode2022.Day5;
 using AdventOfCode2022.Day6;
 using AdventOfCode2022.Day7;
 using AdventOfCode2022.Day8;
+using AdventOfCode2022.Day9;
 
 namespace AdventOfCode2022
 {
@@ -42,9 +43,29 @@ namespace AdventOfCode2022
             //Console.WriteLine();
             //Day7Solutions.Part2();
 
-            Day8Solutions.Part1();
+            //Day8Solutions.Part1();
+            //Console.WriteLine();
+            //Day8Solutions.Part2();
+
+            Day9Solutions.Part1();
             Console.WriteLine();
-            Day8Solutions.Part2();
+            Day9Solutions.Part2();
+
+            //int[] arr = { 1, 2, 3, 4, 5, 6 };
+            //foreach(int i in arr)
+            //{
+            //    Console.Write(i + " ");
+            //}
+            //AlterArray(arr);
+            //foreach (int i in arr)
+            //{
+            //    Console.Write(i + " ");
+            //}
+        }
+
+        static void AlterArray(int[] a)
+        {
+            a[0] = 1000;
         }
     }
   
