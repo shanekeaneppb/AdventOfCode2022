@@ -165,53 +165,5 @@ namespace AdventOfCode2022.Day9
             }
             return head;
         }
-
-        private static void MoveRope(Position[] rope, string direction)
-        {
-            int ropeLength = rope.Length;
-            Position from = rope[0];
-            Position to = rope[0];
-            switch (direction)
-            {
-                case ("U"):
-                    rope[0].y += 1;
-                    break;
-                case ("D"):
-                    rope[0].y -= 1;
-                    break;
-                case ("L"):
-                    rope[0].x -= 1;
-                    break;
-                case ("R"):
-                    rope[0].x += 1;
-                    break;
-            }
-            for (int i = 1; i < ropeLength; i++)
-            {
-                from = rope[i];
-                rope[i] = to;
-                to = from;
-            }
-        }
-
-        private static void PrintGrid(Position[] arr)
-        {
-            int gridSize = 11;
-
-            for(int i = -gridSize/2; i < gridSize/2 + 1; i++)
-            {
-                for(int j = -gridSize / 2; j < gridSize / 2 + 1; j++)
-                {
-                    for(int k = 0; k < arr.Length; k++)
-                    {
-                        if (arr[k].x == i && arr[k].y == j)
-                            Console.Write(k + " ");
-                        else
-                            Console.Write(". ");
-                    }
-                }
-                Console.WriteLine();
-            }
-        }
     }
 }
