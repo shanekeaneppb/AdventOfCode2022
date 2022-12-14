@@ -31,7 +31,10 @@ namespace AdventOfCode2022.Day14
         }
         public static void Part2()
         {
-            
+            var walls = LoadWalls("input.txt");
+            Wall sandSpawmn = new(500, 0);
+            int unitsOfSand = SandFallWithFloor(walls, sandSpawmn);
+            Console.WriteLine($"Day 14, Part 1 Solution: {unitsOfSand}");
         }
 
         private static HashSet<Wall> LoadWalls(string file)
@@ -77,30 +80,30 @@ namespace AdventOfCode2022.Day14
                 throw new InvalidEnumArgumentException();
         }
 
-        private static bool MoveDown(ref Wall sand, HashSet<Wall> walls)
+        private static bool MoveDown(ref Wall sand, HashSet<Wall> walls, int floor)
         {
             // Note moving "down" actually means increasing the y coordinate by the convention in the question
             Wall newPosition = new(sand.X, sand.Y + 1);
-            if(walls.Contains(newPosition))
+            if(walls.Contains(newPosition) || newPosition.Y >= floor)
                 return false;
             sand = newPosition;
             return true;
         }
 
-        private static bool MoveDownAndLeft(ref Wall sand, HashSet<Wall> walls)
+        private static bool MoveDownAndLeft(ref Wall sand, HashSet<Wall> walls, int floor)
         {
             // Note moving "down" actually means increasing the y coordinate by the convention in the question
             Wall newPosition = new(sand.X - 1, sand.Y + 1);
-            if (walls.Contains(newPosition))
+            if (walls.Contains(newPosition) || newPosition.Y >= floor)
                 return false;
             sand = newPosition;
             return true;
         }
-        private static bool MoveDownAndRight(ref Wall sand, HashSet<Wall> walls)
+        private static bool MoveDownAndRight(ref Wall sand, HashSet<Wall> walls, int floor)
         {
             // Note moving "down" actually means increasing the y coordinate by the convention in the question
             Wall newPosition = new(sand.X + 1, sand.Y + 1);
-            if (walls.Contains(newPosition))
+            if (walls.Contains(newPosition) || newPosition.Y >= floor)
                 return false;
             sand = newPosition;
             return true;
@@ -110,12 +113,13 @@ namespace AdventOfCode2022.Day14
         {
             int unitsOfSand = 0;
             int abyss = walls.Select(wall => wall.Y).Max();
+            int floor = walls.Select(wall => wall.Y).Max() + 2;
             bool intoTheAbyss = false;
             Wall sand;
             while(true)
             {
                 sand = new(sandSpawn.X, sandSpawn.Y);
-                while (MoveDown(ref sand, walls) || MoveDownAndLeft(ref sand, walls) || MoveDownAndRight(ref sand, walls))
+                while (MoveDown(ref sand, walls, floor) || MoveDownAndLeft(ref sand, walls, floor) || MoveDownAndRight(ref sand, walls, floor))
                 {
                     if (sand.Y >= abyss)
                     {
@@ -131,7 +135,21 @@ namespace AdventOfCode2022.Day14
             return unitsOfSand;
         }
 
-       
-
+        private static int SandFallWithFloor(HashSet<Wall> walls, Wall sandSpawn)
+        {
+            int unitsOfSand = 0;
+            int floor = walls.Select(wall => wall.Y).Max() + 2;
+            Wall sand;
+            while (true)
+            {
+                sand = new(sandSpawn.X, sandSpawn.Y);
+                while (MoveDown(ref sand, walls, floor) || MoveDownAndLeft(ref sand, walls, floor) || MoveDownAndRight(ref sand, walls, floor)) { }
+                if ((sand.X == sandSpawn.X && (sand.Y == sandSpawn.Y)))
+                    break;
+                walls.Add(sand);
+                unitsOfSand++;
+            }
+            return unitsOfSand + 1; // +1 as last sand (the one that blocks the source) is not counted 
+        }
     }
 }
