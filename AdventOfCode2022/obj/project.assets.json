@@ -52,6 +52,16 @@
           "bin/placeholder/AdventOfCode2022.Day14.dll": {}
         }
       },
+      "AdventOfCode2022.Day15/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/AdventOfCode2022.Day15.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AdventOfCode2022.Day15.dll": {}
+        }
+      },
       "AdventOfCode2022.Day2/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -160,6 +170,11 @@
       "path": "../AdventOfCode2022.Day14/AdventOfCode2022.Day14.csproj",
       "msbuildProject": "../AdventOfCode2022.Day14/AdventOfCode2022.Day14.csproj"
     },
+    "AdventOfCode2022.Day15/1.0.0": {
+      "type": "project",
+      "path": "../AdventOfCode2022.Day15/AdventOfCode2022.Day15.csproj",
+      "msbuildProject": "../AdventOfCode2022.Day15/AdventOfCode2022.Day15.csproj"
+    },
     "AdventOfCode2022.Day2/1.0.0": {
       "type": "project",
       "path": "../AdventOfCode2022.Day2/AdventOfCode2022.Day2.csproj",
@@ -208,6 +223,7 @@
       "AdventOfCode2022.Day11 >= 1.0.0",
       "AdventOfCode2022.Day12 >= 1.0.0",
       "AdventOfCode2022.Day14 >= 1.0.0",
+      "AdventOfCode2022.Day15 >= 1.0.0",
       "AdventOfCode2022.Day2 >= 1.0.0",
       "AdventOfCode2022.Day3 >= 1.0.0",
       "AdventOfCode2022.Day4 >= 1.0.0",
@@ -259,6 +275,9 @@
             },
             "C:\\Users\\keanes2\\sandbox\\AdventOfCode2022\\AdventOfCode2022.Day14\\AdventOfCode2022.Day14.csproj": {
               "projectPath": "C:\\Users\\keanes2\\sandbox\\AdventOfCode2022\\AdventOfCode2022.Day14\\AdventOfCode2022.Day14.csproj"
+            },
+            "C:\\Users\\keanes2\\sandbox\\AdventOfCode2022\\AdventOfCode2022.Day15\\AdventOfCode2022.Day15.csproj": {
+              "projectPath": "C:\\Users\\keanes2\\sandbox\\AdventOfCode2022\\AdventOfCode2022.Day15\\AdventOfCode2022.Day15.csproj"
             },
             "C:\\Users\\keanes2\\sandbox\\AdventOfCode2022\\AdventOfCode2022.Day1\\AdventOfCode2022.Day1.csproj": {
               "projectPath": "C:\\Users\\keanes2\\sandbox\\AdventOfCode2022\\AdventOfCode2022.Day1\\AdventOfCode2022.Day1.csproj"
