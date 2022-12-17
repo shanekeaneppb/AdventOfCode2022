@@ -1,35 +1,69 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode2022.Day15
 {
     public class Day15Solutions
     {
-        public struct Point
+        public class Point
         {
             public int X;
             public int Y;
+            private Point _beacon = null;
+            private int _distanceToBeacon;
 
+            public Point Beacon 
+            {
+                get
+                {
+                    return _beacon;
+                }
+                set
+                {
+                    _beacon = value;
+                    _distanceToBeacon = this.DistanceTo(_beacon);
+                }
+            }
             public Point(int x, int y)
             {
-                X = x; Y = y; 
+                X = x; Y = y;
             }
             public int DistanceTo(Point other)
             {
                 return Math.Abs(this.X - other.X) + Math.Abs(this.Y - other.Y);
             }
 
-           
+            public bool IsInRange(Point other)
+            {
+                int distanceToOther =  this.DistanceTo(other);
+
+                if (distanceToOther <= _distanceToBeacon)
+                    return true;
+                return false;
+            }
+
+            public override bool Equals(Object other)
+            {
+                try
+                {
+                    Point p = (Point)other;
+                    return ((this.X == p.X) && (this.Y == p.Y));
+                }
+                catch
+                {
+                    return false;
+                }
+            }
         }
         public static void Part1()
         {
-            int row = 10, takenCount= 0;
-            HashSet<Point> takenPositions = new();
-            HashSet<Point> sensors = new();
-            HashSet<Point> beacons = new();
+            int row = 10;
+            List<Point> sensors = new();
+            List<Point> beacons = new();
             Regex regex = new Regex(@"Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)");
             Match match;
             Point sensor, beacon;
-            int minX = 0, maxX = 0, minY = 0, maxY = 0;
             using (StreamReader reader = new StreamReader(@"../../../../AdventOfCode2022.Day15/" + "test.txt"))
             {
                 string line;
@@ -42,36 +76,38 @@ namespace AdventOfCode2022.Day15
                     }
                     sensor = new Point(Convert.ToInt32(match.Groups[1].Value), Convert.ToInt32(match.Groups[2].Value));
                     beacon = new Point(Convert.ToInt32(match.Groups[3].Value), Convert.ToInt32(match.Groups[4].Value));
+                    sensor.Beacon = beacon;
                     sensors.Add(sensor);
                     beacons.Add(beacon);
-                    takenPositions.Add(sensor);
-                    takenPositions.Add(beacon);
-                    takenPositions.UnionWith(GetTakenPoints(sensor, beacon));
-                    (minX, minY, maxX, maxY) = SetNewMinMax(sensor, beacon, minX, minY, maxX, maxY);
-
-
                 }
             }
-            minX = takenPositions.Select(point => point.X).Min();
-            minY = takenPositions.Select(point => point.Y).Min();
-            maxX = takenPositions.Select(point => point.X).Max();
-            maxY = takenPositions.Select(point => point.Y).Max();
-
-            PrintResults(sensors, beacons, takenPositions, minX, maxX, minY, maxY);
-            Console.WriteLine($"minX = {minX}");
-            Console.WriteLine($"maxX = {maxX}");
-            Console.WriteLine($"minY = {minY}");
-            Console.WriteLine($"maxY = {maxY}");
-
-            Point temp;
-            for (int i = minX; i < maxX; i++)
+            Point p;
+            int cannotConatinBeacon = 0;
+            bool inRange;
+            for(int i = -4; i <= 26; i++)
             {
-                temp = new Point(i, row);
-                if (sensors.Contains(temp) || beacons.Contains(temp))
+                inRange = false;
+                p = new Point(i, row);
+                if ((sensors.Contains(p)) || (beacons.Contains(p)))
+                {
+                    Console.Write("B");
                     continue;
-                takenCount += takenPositions.Contains(temp) ? 1 : 0;
+                }
+                foreach(var s in sensors)
+                {
+                    if (s.IsInRange(p))
+                    {
+                        inRange = true;
+                        break;
+                    }
+                }
+                if(inRange)
+                    Console.Write("#");
+                else
+                    Console.Write(".");
+                cannotConatinBeacon += inRange ? 1 : 0; 
             }
-            Console.WriteLine($"Day 15, Part 1 Solution: {takenCount}");
+            Console.WriteLine($"Day 15, Part 1 Solution: {cannotConatinBeacon}");
         }
         public static void Part2()
         {

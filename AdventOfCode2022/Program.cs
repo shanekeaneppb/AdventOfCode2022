@@ -17,6 +17,33 @@ namespace AdventOfCode2022
 {
     class Program
     {
+
+        //public class Point
+        //{
+        //    public int X;
+        //    public int Y;
+        //    private Point _beacon = null;
+        //    private int _distanceToBeacon;
+
+        //    public Point(int x, int y)
+        //    {
+        //        X = x; Y = y;
+        //    }
+
+        //    public override bool Equals(Object other)
+        //    {
+        //        try
+        //        {
+        //            Point p = (Point)other;
+        //            return ((this.X == p.X) && (this.Y == p.Y));
+        //        }
+        //        catch
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
+
         static void Main(string[] args)
         {
             // Day 1
@@ -75,6 +102,7 @@ namespace AdventOfCode2022
             Day15Solutions.Part1();
             Console.WriteLine();
             Day15Solutions.Part2();
+
         }
     }
   
