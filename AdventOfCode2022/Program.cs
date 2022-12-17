@@ -12,6 +12,7 @@ using AdventOfCode2022.Day11;
 using AdventOfCode2022.Day12;
 using AdventOfCode2022.Day14;
 using AdventOfCode2022.Day16;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode2022
 {
@@ -75,6 +76,12 @@ namespace AdventOfCode2022
             Day16Solutions.Part1();
             Console.WriteLine();
             Day16Solutions.Part2();
+
+            //Regex regex = new(@"Valve ([A-Z][A-Z]) has flow rate=(\d+); tunnels lead to valves (.+)");
+            //string s = "Valve AA has flow rate=0; tunnels lead to valves DD, II, BB";
+            //Match match = regex.Match(s);
+            //Console.WriteLine(match.Success);
+
         }
     }
   
