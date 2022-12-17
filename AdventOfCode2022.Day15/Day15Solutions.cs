@@ -58,13 +58,14 @@ namespace AdventOfCode2022.Day15
         }
         public static void Part1()
         {
-            int row = 10;
+            int row = 2000000;
             List<Point> sensors = new();
             List<Point> beacons = new();
             Regex regex = new Regex(@"Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)");
             Match match;
             Point sensor, beacon;
-            using (StreamReader reader = new StreamReader(@"../../../../AdventOfCode2022.Day15/" + "test.txt"))
+            int minX = 0, minY = 0, maxX = 0, maxY = 0;
+            using (StreamReader reader = new StreamReader(@"../../../../AdventOfCode2022.Day15/" + "input.txt"))
             {
                 string line;
                 while((line = reader.ReadLine()) != null)
@@ -79,18 +80,19 @@ namespace AdventOfCode2022.Day15
                     sensor.Beacon = beacon;
                     sensors.Add(sensor);
                     beacons.Add(beacon);
+                    (minX, minY, maxX, maxY) = SetNewMinMax(sensor, beacon, minX, minY, maxX, maxY);
                 }
             }
             Point p;
             int cannotConatinBeacon = 0;
             bool inRange;
-            for(int i = -4; i <= 26; i++)
+            for(int i = minX; i <= maxX; i++)
             {
                 inRange = false;
                 p = new Point(i, row);
                 if ((sensors.Contains(p)) || (beacons.Contains(p)))
                 {
-                    Console.Write("B");
+                    //Console.Write("B");
                     continue;
                 }
                 foreach(var s in sensors)
@@ -101,10 +103,10 @@ namespace AdventOfCode2022.Day15
                         break;
                     }
                 }
-                if(inRange)
-                    Console.Write("#");
-                else
-                    Console.Write(".");
+                //if(inRange)
+                //    //Console.Write("#");
+                //else
+                //    //Console.Write(".");
                 cannotConatinBeacon += inRange ? 1 : 0; 
             }
             Console.WriteLine($"Day 15, Part 1 Solution: {cannotConatinBeacon}");
@@ -137,10 +139,10 @@ namespace AdventOfCode2022.Day15
             Point temp;
             int y, x;
             Console.Write("   ");
-            minX = -4;
-            maxX = 27;
-            minY = -2;
-            maxY = 23;
+            //minX = -4;
+            //maxX = 27;
+            //minY = -2;
+            //maxY = 23;
             for (x = minX; x < maxX; x++)
             {
                 if(x == minX)
