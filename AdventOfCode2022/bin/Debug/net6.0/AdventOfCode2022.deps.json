@@ -11,6 +11,7 @@
           "AdventOfCode2022.Day1": "1.0.0",
           "AdventOfCode2022.Day10": "1.0.0",
           "AdventOfCode2022.Day11": "1.0.0",
+          "AdventOfCode2022.Day12": "1.0.0",
           "AdventOfCode2022.Day14": "1.0.0",
           "AdventOfCode2022.Day2": "1.0.0",
           "AdventOfCode2022.Day3": "1.0.0",
@@ -38,6 +39,11 @@
       "AdventOfCode2022.Day11/1.0.0": {
         "runtime": {
           "AdventOfCode2022.Day11.dll": {}
+        }
+      },
+      "AdventOfCode2022.Day12/1.0.0": {
+        "runtime": {
+          "AdventOfCode2022.Day12.dll": {}
         }
       },
       "AdventOfCode2022.Day14/1.0.0": {
@@ -104,6 +110,11 @@
       "sha512": ""
     },
     "AdventOfCode2022.Day11/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AdventOfCode2022.Day12/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
