@@ -40,3 +40,5 @@ C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022\bin\Debug\net6.0\Adve
 C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.Day14.pdb
 C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.Day12.dll
 C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.Day12.pdb
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.Day17.dll
+C:\Users\keanes2\sandbox\AdventOfCode2022\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.Day17.pdb
