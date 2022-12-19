@@ -3,7 +3,8 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace AdventOfCode2022.Day17
 {
-    public partial class Day17Solutions
+
+    public class Day17Solutions
     {
         public static int NumRockShapes = 5;
         public static int LeftSpawn = 2;
@@ -13,7 +14,7 @@ namespace AdventOfCode2022.Day17
         public static void Part1()
         {
 
-            char[] jetArray = LoadJetPattern("input.txt");
+            char[] jetArray = LoadJetPattern("test.txt");
             int maxNumRocks = 2022;
 
             int height = DropRocks(jetArray, maxNumRocks);
@@ -23,11 +24,12 @@ namespace AdventOfCode2022.Day17
         public static void Part2()
         {
             char[] jetArray = LoadJetPattern("test.txt");
-            int maxNumRocks = 2022;
+            long maxNumRocks = 2022;
 
-            int height = DropRocks(jetArray, maxNumRocks);
 
-            Console.WriteLine($"Day 17, Part 2 Solution: {height}");
+            //long height = Solve(maxNumRocks, jetArray);
+
+            //Console.WriteLine($"Day 17, Part 2 Solution: {height}");
         }
 
         public  static char[] LoadJetPattern(string file)
@@ -54,14 +56,9 @@ namespace AdventOfCode2022.Day17
             bool canMoveBlock = false;
             while (rockCount < maxRocks)
             {
-                //lowestMaxHeight = highestPointsPerColumn.Select(p => p.Y).Min();
-                //highestMaxHeigth = highestPointsPerColumn.Select(p => p.Y).Max();
-
                 if (!canMoveBlock)
                 {
                     currentRock = Rock.GetNewRock(rockCount, highestPoint);
-                    //Console.WriteLine($"Rock number {rockCount}");
-                    //PrintRock(currentRock);
                     canMoveBlock = true;
                 }
                 currentJet = jetArray[i % numJetInstructions];
@@ -72,11 +69,11 @@ namespace AdventOfCode2022.Day17
                     rockCount++;
                     UpdateRows(currentRock, rows);
                     highestPoint = rows.Select(p => p.Key).Max();
-                    //PrintRocks(rows);
+                    if (IsNewFloor(rows))
+                        break;
                 }
                 i++;
             }
-            //PrintRocks(rows);
             return highestPoint;
         }
 
@@ -136,5 +133,127 @@ namespace AdventOfCode2022.Day17
             Console.WriteLine("+-------+");
         }
 
+        public static long Solve(long rocksToFall, char[] jetArray)
+        {
+            Dictionary<(int startingRockIndex, int startingJetIndex),
+                (int finishingRockIndex, int finishingJetIndex, int height, int numFallenRocks)> combinations = GetAllCombinations(jetArray);
+            int rockIndex = 0, jetIndex = 0, height = 0, numFallenRocks = 0;
+            long totalHeight = 0;
+            while (rocksToFall > 0)
+            {
+                (rockIndex, jetIndex, height, numFallenRocks) = combinations[(rockIndex, jetIndex)];
+                if ((rocksToFall - numFallenRocks) < 0)
+                    break;
+                rocksToFall -= numFallenRocks;
+                totalHeight += height;
+            }
+            totalHeight += DropNRocks(rockIndex, jetIndex, jetArray, (int)rocksToFall);
+
+            return totalHeight;
+        }
+        public static Dictionary<(int startingRockIndex, int startingJetIndex),
+            (int finishingRockIndex, int finishingJetIndex, int height, int numFallenRocks)> 
+            GetAllCombinations(char[] jetArray)
+        {
+            Dictionary<(int startingRockIndex, int startingJetIndex), 
+                (int finishingRockIndex, int finishingJetIndex, int height, int numFallenRocks)> combinations = new();
+            for(int i = 0; i < NumRockShapes; i++)
+            { 
+                Console.WriteLine(i);
+                for(int j = 0; j < jetArray.Length; i++)
+                {
+                    combinations[(i, j)] = Drop(i, j, jetArray);
+                }
+            }
+            return combinations;
+        }
+        public static (int finishingRockIndex, int finishingJetIndex, int heightReached, int numFallenRocks) Drop(int startingRock, int startingJet, char[] jetArray)
+        {
+            int highestPoint = 0, numFallenRocks = 0, rockIndex= startingRock, jetIndex = startingJet, numJetInstructions = jetArray.Length;
+            char currentJet;
+
+            Dictionary<int, HashSet<int>> rows = new();
+
+            Rock currentRock = new();
+
+            bool canMoveBlock = false;
+            while (true)
+            {
+                if (!canMoveBlock)
+                {
+                    currentRock = Rock.GetNewRock(rockIndex, highestPoint);
+                    canMoveBlock = true;
+                }
+                currentJet = jetArray[jetIndex % numJetInstructions];
+                currentRock.MoveRightLeft(currentJet, rows);
+                canMoveBlock = currentRock.MoveDown(rows);
+                if (!canMoveBlock)
+                {
+                    rockIndex++;
+                    numFallenRocks++;
+                    UpdateRows(currentRock, rows);
+                    highestPoint = rows.Select(p => p.Key).Max();
+                    if (IsNewFloor(rows))
+                        break;
+                }
+                jetIndex++;
+            }
+            return (rockIndex%NumRockShapes, jetIndex%numJetInstructions, highestPoint, numFallenRocks);
+        }
+
+        public static int DropNRocks(int startingRock, int startingJet, char[] jetArray, int N)
+        {
+            int highestPoint = 0, numFallenRocks = 0, rockIndex = startingRock, jetIndex = startingJet, numJetInstructions = jetArray.Length;
+            char currentJet;
+
+            Dictionary<int, HashSet<int>> rows = new();
+
+            Rock currentRock = new();
+
+            bool canMoveBlock = false;
+            while (true)
+            {
+                if (!canMoveBlock)
+                {
+                    currentRock = Rock.GetNewRock(rockIndex, highestPoint);
+                    canMoveBlock = true;
+                }
+                currentJet = jetArray[jetIndex % numJetInstructions];
+                currentRock.MoveRightLeft(currentJet, rows);
+                canMoveBlock = currentRock.MoveDown(rows);
+                if (!canMoveBlock)
+                {
+                    rockIndex++;
+                    numFallenRocks++;
+                    UpdateRows(currentRock, rows);
+                    highestPoint = rows.Select(p => p.Key).Max();
+                    if (numFallenRocks >= N)
+                        break;
+                }
+                jetIndex++;
+            }
+            return highestPoint;
+        }
+        public static bool IsNewFloor(Dictionary<int, HashSet<int>> rows)
+        {
+            int maxRow = rows.Select(p => p.Key).Max();
+            int i = 0;
+            for (i = 0; i < CaveWidth; i++)
+            {
+                if (rows[maxRow].Contains(i)) { Console.Write("#"); }
+                else { Console.Write("."); }
+            }
+            Console.WriteLine();
+                for (i = 0; i < CaveWidth; i++)
+            {
+                if (!rows[maxRow].Contains(i))
+                    return false;
+            }
+            return true;
+        }
+
+
     }
+
+    
 }
