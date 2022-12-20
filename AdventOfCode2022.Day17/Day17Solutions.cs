@@ -15,7 +15,7 @@ namespace AdventOfCode2022.Day17
         {
 
             char[] jetArray = LoadJetPattern("test.txt");
-            int maxNumRocks = 616;
+            int maxNumRocks = 2022;
 
             //int lcm = NumRockShapes * jetArray.Length;
             //int numOfPeriods = maxNumRocks / lcm;
@@ -84,15 +84,16 @@ namespace AdventOfCode2022.Day17
                     {
 
                         Console.WriteLine($"After, {rockCount} rocks, height = {highestPoint}");
-                        PrintRocks(rows);
+                        //PrintRocks(rows);
                         Console.WriteLine();
                     }
                 }
                 i++;
             }
-            Compare(rows, maxRocks / 2);
+            //Compare(rows, maxRocks / 2);
             //PrintRow(rows[rows.Keys.Max()]);
             //Console.WriteLine();
+            PrintRocks(rows);
             return highestPoint;
         }
 
