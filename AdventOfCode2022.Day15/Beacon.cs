@@ -2,12 +2,12 @@
 
 namespace AdventOfCode2022.Day15
 {
-    public class Beacon
+    public struct Point
     {
         public int X;
         public int Y;
 
-        public Beacon(int x, int y)
+        public Point(int x, int y)
         {
             X = x;
             Y = y;

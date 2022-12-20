@@ -1,24 +1,22 @@
 ﻿namespace AdventOfCode2022.Day15
 {
-    public class Sensor
+    public struct Sensor
     {
         public int X;
         public int Y;
-        public Beacon beacon;
+        public Point Beacon;
         public int DistToBeacon;
 
-        public Sensor(int x, int y, Beacon beacon)
+        public Sensor(int x, int y, Point beacon)
         {
             X = x;
             Y = y;
-            this.beacon = beacon;
-            DistToBeacon = DistanceToBeacon(this.beacon);
+            Beacon = beacon;
+            DistToBeacon = Math.Abs(X - Beacon.X) + Math.Abs(Y - Beacon.Y);
+        }
 
-        }
-        public int DistanceToBeacon(Beacon beacon)
-        {
-            return Math.Abs(this.X - beacon.X) + Math.Abs(this.Y - beacon.Y);
-        }
+        public bool IsInRange(Point point) =>  (Math.Abs(this.X - point.X) + Math.Abs(this.Y - point.Y)) <= DistToBeacon;
+        
         public override string ToString() => $"({X}, {Y})";
     }
 }
