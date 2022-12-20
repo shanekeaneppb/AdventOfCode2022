@@ -75,7 +75,11 @@ namespace AdventOfCode2022
             Day17Solutions.Part1();
             Console.WriteLine();
             Day17Solutions.Part2();
+
+
+
         }
+ 
     }
   
 }
