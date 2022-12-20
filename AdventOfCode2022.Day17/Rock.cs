@@ -20,90 +20,55 @@
             Points = rock.Points;
         }
 
-        public Point[] GetHighestPoints()
-        {
-            int highestYValue = Points.Select(p => p.Y).Max();
-            return Points.Where(p => p.Y == highestYValue).ToArray();
-        }
-        public Point[] GetLowestPoints()
-        {
-            int lowestYValue = Points.Select(p => p.Y).Min();
-            return Points.Where(p => p.Y == lowestYValue).ToArray();
-        }
-
-        public Point[] GetRightMostPoints()
-        {
-            int highestXValue = Points.Select(p => p.X).Max();
-            return Points.Where(p => p.X == highestXValue).ToArray();
-        }
-
-        public Point[] GetLeftMostPoints()
-        {
-            int lowestXValue = Points.Select(p => p.X).Min();
-            return Points.Where(p => p.X == lowestXValue).ToArray();
-        }
-
         public int GetHighestPoint() =>  Points.Select(p => p.Y).Max();
         public int GetLowestPoint() =>  Points.Select(p => p.Y).Min();
         
-        public bool MoveRightLeft(char direction, Dictionary<int, HashSet<int>> rows)
+        public bool MoveRightLeft(char direction, HashSet<Point> occupiedPoints)
         {
             if (direction == '>')
-                return MoveRight(rows);
+                return MoveRight(occupiedPoints);
             else
-                return MoveLeft(rows);
+                return MoveLeft(occupiedPoints);
         }
 
-        public bool MoveRight(Dictionary<int, HashSet<int>> rows)
+        public bool MoveRight(HashSet<Point> occupiedPoints)
         {
             foreach(var point in this.Points)
             {
                 if((point.X + 1) >= CaveWidth)
                     return false;
-                else if (!rows.ContainsKey(point.Y))
-                    continue;
-                else if ((rows[point.Y].Contains(point.X + 1)))
+                else if (occupiedPoints.Contains(new Point(point.X + 1, point.Y)))
                     return false;
             }
-            foreach (var point in this.Points)
-            {
-                point.MoveRight();
-            }
+            for (int i = 0; i < Points.Length; i++)
+                Points[i].MoveRight();
             return true;
         }
-        public bool MoveLeft(Dictionary<int, HashSet<int>> rows)
+        public bool MoveLeft(HashSet<Point> occupiedPoints)
         {
             foreach (var point in this.Points)
             {
                 if((point.X - 1) < 0)
                     return false;
-                else if (!rows.ContainsKey(point.Y))
-                    continue;
-                else if ((rows[point.Y].Contains(point.X - 1)))
+                else if (occupiedPoints.Contains(new Point(point.X - 1, point.Y)))
                     return false;
             }
-            foreach (var point in this.Points)
-            {
-                point.MoveLeft();
-            }
+            for (int i = 0; i < Points.Length; i++)
+                Points[i].MoveLeft();
             return true;
         }
 
-        public bool MoveDown(Dictionary<int, HashSet<int>> rows)
+        public bool MoveDown(HashSet<Point> occupiedPoints)
         {
             foreach (var point in this.Points)
             {
                 if ((point.Y - 1) <= 0)
                     return false;
-                else if (!rows.ContainsKey(point.Y - 1))
-                    continue;
-                else if ((rows[point.Y - 1].Contains(point.X)))
+                else if (occupiedPoints.Contains(new Point(point.X, point.Y - 1)))
                     return false;
             }
-            foreach (var point in this.Points)
-            {
-                point.MoveDown();
-            }
+            for(int i = 0; i < Points.Length; i++)
+                Points[i].MoveDown();
             return true;
         }
         public static Rock GetNewRock(int rockCount, int highestPoint)

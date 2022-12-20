@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2022.Day17
 {
-    public class Point
+    public struct Point
     {
         public int X;
         public int Y;
@@ -28,18 +28,18 @@
         }
         public override string ToString() => $"({X}, {Y})";
 
-        public override bool Equals(object? obj)
-        {
-            try
-            {
-                Point p = obj as Point;
-                return (p.X == X && p.Y == Y);
-            }
-            catch
-            {
-                return false;
-            }
-        }
+        //public override bool Equals(object? obj)
+        //{
+        //    try
+        //    {
+        //        Point p = obj as Point;
+        //        return (p.X == X && p.Y == Y);
+        //    }
+        //    catch
+        //    {
+        //        return false;
+        //    }
+        //}
 
     }
 
