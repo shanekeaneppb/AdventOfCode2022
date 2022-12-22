@@ -15,21 +15,9 @@ namespace AdventOfCode2022.Day17
         public static void Part1()
         {
 
-            JetArray = LoadJetArray("test.txt");
+            JetArray = LoadJetArray("input.txt");
             JetArraySize = JetArray.Length;
-            int maxNumRocks = 12;
-
-            //int lcm = NumRockShapes * jetArray.Length;
-            //int numOfPeriods = maxNumRocks / lcm;
-            //int remainingRocks = maxNumRocks % lcm;
-
-            //int height;
-
-            //int periodHeight = DropRocks(jetArray, lcm);
-
-            //height = periodHeight * numOfPeriods;
-
-            //height += DropRocks(jetArray, remainingRocks);
+            int maxNumRocks = 2022;
 
             int height = DropRocks(maxNumRocks);
 
@@ -64,9 +52,8 @@ namespace AdventOfCode2022.Day17
 
             HashSet<Point> fallenRocks = new();
 
-            Point[] rock;
+            Point[] rock = new Point[NumRockShapes];
 
-            bool canMoveBlock = false;
             while (numFallenRocks < maxRocks)
             {
                 //Console.WriteLine(rockCount);
@@ -76,12 +63,13 @@ namespace AdventOfCode2022.Day17
                     isRockBlocked = false;
                 }
                 currentJet = GetNextJet(jetIndex);
-                MoveRock(rock, currentJet);
-                isRockBlocked = !DropRock(rock);
+                MoveRock(rock, fallenRocks, currentJet);
+                isRockBlocked = !DropRock(rock, fallenRocks);
                 if (isRockBlocked)
                 {
                     numFallenRocks++;
-                    highestRock= rock.Select(p => p.Y).Max();
+                    fallenRocks.UnionWith(rock);
+                    highestRock= fallenRocks.Select(p => p.Y).Max();
                 }
                 jetIndex++;
             }
@@ -90,83 +78,102 @@ namespace AdventOfCode2022.Day17
 
         private static char GetNextJet(int jetIndex) => JetArray[jetIndex % JetArraySize];
 
-        private static Point[] GetNextRock(int numFallenRocks, int highestPoint)
+
+        public static Point[] GetNextRock(int numFallenRocks, int highestRock)
         {
-            return new Point[NumRockShapes];
+            Point[] rock = new Point[NumRockShapes];
+            int rockNumber = numFallenRocks % NumRockShapes;
+            int y = highestRock + VerticalSpawn;
+            switch (rockNumber)
+            {
+                case 0:
+                    rock = new Point[]
+                    {
+                        new Point(LeftSpawn, y),
+                        new Point(LeftSpawn + 1, y),
+                        new Point(LeftSpawn + 2, y),
+                        new Point(LeftSpawn + 3, y)
+                    };
+                    break;
+
+                case 1:
+                    rock =  new Point[] 
+                    {
+                        new Point(LeftSpawn, y + 1),
+                        new Point(LeftSpawn + 1, y + 1),
+                        new Point(LeftSpawn + 2, y + 1),
+                        new Point(LeftSpawn + 1, y ),
+                        new Point(LeftSpawn + 1, y + 2),
+                    };
+                    break;
+
+                case 2:
+                    rock = new Point[] 
+                    {
+                        new Point(LeftSpawn, y),
+                        new Point(LeftSpawn + 1, y),
+                        new Point(LeftSpawn + 2, y),
+                        new Point(LeftSpawn + 2, y + 1),
+                        new Point(LeftSpawn + 2, y + 2),
+                    };
+                    break;
+
+                case 3:
+                    rock = new Point[] 
+                    {
+                        new Point(LeftSpawn, y),
+                        new Point(LeftSpawn, y + 1),
+                        new Point(LeftSpawn, y + 2),
+                        new Point(LeftSpawn, y + 3),
+                    };
+                    break;
+
+                case 4:
+                    rock = new Point[]
+                    {
+                        new Point(LeftSpawn, y),
+                        new Point(LeftSpawn + 1, y),
+                        new Point(LeftSpawn, y + 1),
+                        new Point(LeftSpawn + 1, y + 1),
+                    };
+                    break;
+            }
+            return rock;
         }
-        //public static void UpdateRows(Rock currentRock, Dictionary<int, HashSet<int>> rows)
-        //{
-        //    int rowNumber;
-        //    foreach(var point in currentRock.Points)
-        //    {
-        //        rowNumber = point.Y;
-        //        if(rows.ContainsKey(rowNumber))
-        //            rows[rowNumber].Add(point.X);
-        //        else
-        //        {
-        //            rows[rowNumber] = new();
-        //            rows[rowNumber].Add(point.X);
-        //        }
-        //    }
-        //}
 
 
-        //public static void PrintRow(HashSet<int> row)
-        //{
-        //    Console.Write("|");
-        //    for(int i = 0; i < CaveWidth; i++)
-        //    {
-        //        if(row.Contains(i))
-        //            Console.Write("#");
-        //        else
-        //            Console.Write(".");
+        public static void MoveRock(Point[] rock, HashSet<Point> fallenRocks, char jet)
+        {
+            int increment = (jet == '>') ? 1 : -1;
+            int i;
+            Point p = new(0,0);
+            for (i = 0; i < rock.Length; i++)
+            {
+                p = new(rock[i].X + increment, rock[i].Y);
+                if ((fallenRocks.Contains(p)) || (p.X < 0) || (p.X >= CaveWidth))
+                    return;
+            }
+            for(i = 0; i < rock.Length; i++)
+            {
+                rock[i].X += increment;
+            }
+        }
 
-        //    }
-        //    Console.WriteLine("|");
-        //}
-        //public static void PrintRocks(Dictionary<int, HashSet<int>> rows)
-        //{
-        //    int i;
-        //    var rowNumbers = rows.Select(p => p.Key).OrderBy(p => p).Reverse().ToList();
-        //    foreach (var rowNumber in rowNumbers)
-        //    {
-        //        Console.Write("|");
-        //        for (i = 0; i < CaveWidth; i++)
-        //        {
-        //            if (rows[rowNumber].Contains(i))
-        //                Console.Write("#");
-        //            else
-        //                Console.Write(".");
-        //        }
-        //        Console.WriteLine("|");
-        //    }
-        //    Console.WriteLine("+-------+");
-        //}
-
-        //public static void Compare(Dictionary<int, HashSet<int>> rows, int half)
-        //{
-        //    for(int i = 1; i < half; i++)
-        //    {
-        //        if (RowsAreEqual(rows[i], rows[i + half]))
-        //            continue;
-        //        else
-        //            break;
-        //    }
-        //}
-
-        //public static bool RowsAreEqual(HashSet<int> a, HashSet<int> b)
-        //{
-        //    foreach(var entry in a)
-        //    {
-        //        if (!b.Contains(entry))
-        //            return false;
-        //    }
-        //    return true;
-        //}
-
-
-        
+        public static bool DropRock(Point[] rock, HashSet<Point> fallenRocks)
+        {
+            int i;
+            Point p = new(0, 0);
+            for (i = 0; i < rock.Length; i++)
+            {
+                p = new(rock[i].X, rock[i].Y - 1);
+                if ((fallenRocks.Contains(p)) || (p.Y <= 0))
+                    return false;
+            }
+            for (i = 0; i < rock.Length; i++)
+            {
+                rock[i].Y--;
+            }
+            return true;
+        }
     }
-
-
 }

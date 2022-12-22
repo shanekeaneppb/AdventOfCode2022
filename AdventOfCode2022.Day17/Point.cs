@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2022.Day17
 {
-    struct Point
+    public struct Point
     {
         public int X;
         public int Y;
