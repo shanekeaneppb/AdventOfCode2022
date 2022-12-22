@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
 namespace AdventOfCode2022.Day17
@@ -15,21 +16,33 @@ namespace AdventOfCode2022.Day17
         public static void Part1()
         {
 
-            JetArray = LoadJetArray("input.txt");
-            JetArraySize = JetArray.Length;
-            int maxNumRocks = 2022;
+            //JetArray = LoadJetArray("test.txt");
+            //JetArraySize = JetArray.Length;
+            //int maxNumRocks = 2022;
 
-            int height = DropRocks(maxNumRocks);
+            //int height = DropRocks(maxNumRocks);
 
-            Console.WriteLine($"Day 17, Part 1 Solution: {height}");
+            //Console.WriteLine($"Day 17, Part 1 Solution: {height}");
         }
         public static void Part2()
         {
-            //char[] jetArray = LoadJetPattern("test.txt");
-            //int maxNumRocks = NumRockShapes * jetArray.Length;
-            //int height = DropRocks(jetArray, maxNumRocks);
+            JetArray = LoadJetArray("test.txt");
+            JetArraySize = JetArray.Length;
+            //int maxNumRocks = 2022;
 
+            //int lcm = NumRockShapes * JetArraySize;
+            //int numOfPeriods = maxNumRocks / lcm;
+            //int remainingRocks = maxNumRocks % lcm;
+
+            //int height;
+
+            //int periodHeight = DropRocks(lcm + 1);
+
+            //height = periodHeight * numOfPeriods;
+
+            //height += DropRocks(remainingRocks);
             //Console.WriteLine($"Day 17, Part 2 Solution: {height}");
+            GetPeriod();
         }
 
         public  static char[] LoadJetArray(string file)
@@ -54,7 +67,8 @@ namespace AdventOfCode2022.Day17
 
             Point[] rock = new Point[NumRockShapes];
 
-            while (numFallenRocks < maxRocks)
+            //while (numFallenRocks < maxRocks)
+            while(((numFallenRocks % NumRockShapes) != 0) && ((jetIndex % JetArraySize) != 0))
             {
                 //Console.WriteLine(rockCount);
                 if (isRockBlocked)
@@ -69,14 +83,66 @@ namespace AdventOfCode2022.Day17
                 {
                     numFallenRocks++;
                     fallenRocks.UnionWith(rock);
-                    highestRock= fallenRocks.Select(p => p.Y).Max();
+                    highestRock = fallenRocks.Select(p => p.Y).Max();
+                }
+                jetIndex++;
+            }
+            //var highestRow =
+            //    (
+            //    from p in fallenRocks
+            //    where p.Y == highestRock
+            //    select p
+            //    ).ToArray();
+            //var secondHighestRow =
+            //    (
+            //    from p in fallenRocks
+            //    where p.Y == (highestRock - 1)
+            //    select p
+            //    ).ToArray();
+            //var top5Rows = 
+            //    (
+            //    from p in rock
+            //    where highestRock - p.Y < 5
+            //    select p
+            //    ).ToList();
+            return highestRock;
+        }
+
+        public static int GetPeriod()
+        {
+            int jetIndex = 0, numFallenRocks = 0, highestRock = 0;
+            char currentJet;
+            bool isRockBlocked = true;
+
+            HashSet<Point> fallenRocks = new();
+
+            Point[] rock = new Point[NumRockShapes];
+
+            while (true)
+            {
+                if (isRockBlocked)
+                {
+                    rock = GetNextRock(numFallenRocks, highestRock);
+                    isRockBlocked = false;
+                }
+                currentJet = GetNextJet(jetIndex);
+                MoveRock(rock, fallenRocks, currentJet);
+                isRockBlocked = !DropRock(rock, fallenRocks);
+                if (isRockBlocked)
+                {
+                    numFallenRocks++;
+                    fallenRocks.UnionWith(rock);
+                    highestRock = fallenRocks.Select(p => p.Y).Max();
+                    if (((numFallenRocks % NumRockShapes) == 0) && ((jetIndex % JetArraySize) == 0))
+                        break;
                 }
                 jetIndex++;
             }
             return highestRock;
         }
 
-        private static char GetNextJet(int jetIndex) => JetArray[jetIndex % JetArraySize];
+
+            private static char GetNextJet(int jetIndex) => JetArray[jetIndex % JetArraySize];
 
 
         public static Point[] GetNextRock(int numFallenRocks, int highestRock)
