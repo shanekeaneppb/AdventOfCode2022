@@ -80,6 +80,7 @@ namespace AdventOfCode2022
             Day18Solutions.Part1();
             Console.WriteLine();
             Day18Solutions.Part2();
+
         }
     }
   
