@@ -12,6 +12,7 @@ using AdventOfCode2022.Day11;
 using AdventOfCode2022.Day12;
 using AdventOfCode2022.Day13;
 using AdventOfCode2022.Day14;
+using AdventOfCode2022.Day20;
 
 namespace AdventOfCode2022
 {
@@ -68,13 +69,22 @@ namespace AdventOfCode2022
             //Console.WriteLine();
             //Day12Solutions.Part2();
 
-            Day13Solutions.Part1();
-            Console.WriteLine();
-            Day13Solutions.Part2();
+            //Day13Solutions.Part1();
+            //Console.WriteLine();
+            //Day13Solutions.Part2();
 
             //Day14Solutions.Part1();
             //Console.WriteLine();
             //Day14Solutions.Part2();
+
+            //Day20Solutions.Part1();
+            //Console.WriteLine();
+            //Day20Solutions.Part2();
+
+            var multiplier = Math.Abs(-9865/ 200);
+
+            Console.WriteLine((-9865 + (multiplier + 1) * 200) % 200);
+
         }
     }
   
