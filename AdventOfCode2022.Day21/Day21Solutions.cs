@@ -8,7 +8,7 @@ namespace AdventOfCode2022.Day21
         {
             // -1839865948 is incorrect. No info on whether too big or small
             Dictionary<string, string> dict = new();
-            using (StreamReader file = new StreamReader(@"../../../../AdventOfCode2022.Day21/" + "test.txt"))
+            using (StreamReader file = new StreamReader(@"../../../../AdventOfCode2022.Day21/" + "input.txt"))
             {
                 string line, key, value;
                 string[] pair;
@@ -38,31 +38,31 @@ namespace AdventOfCode2022.Day21
         {
             try
             {
-                Convert.ToInt32(value);
+                Convert.ToInt64(value);
                 return value;
             }
             catch { }
 
             string operater = GetOperator(value);
             (string leftOperand, string rightOperand) = GetOperands(value);
-            int leftValue, rightValue;
+            long leftValue, rightValue;
             try
             {
-                leftValue = Convert.ToInt32(leftOperand);
+                leftValue = Convert.ToInt64(leftOperand);
             }
             catch 
             {
                 leftOperand = EvaluateExpression(dict[leftOperand], dict);
-                leftValue = Convert.ToInt32(leftOperand);
+                leftValue = Convert.ToInt64(leftOperand);
             }
             try
             {
-                rightValue = Convert.ToInt32(rightOperand);
+                rightValue = Convert.ToInt64(rightOperand);
             }
             catch 
             {
                 rightOperand = EvaluateExpression(dict[rightOperand], dict);
-                rightValue = Convert.ToInt32(rightOperand);
+                rightValue = Convert.ToInt64(rightOperand);
             }
             return ExpressionToNumber(leftValue, rightValue, operater);
         }
@@ -89,9 +89,9 @@ namespace AdventOfCode2022.Day21
             return (leftOperand, rightOperand);
         }
 
-        private static string ExpressionToNumber(int leftValue, int rightValue, string operater)
+        private static string ExpressionToNumber(long leftValue, long rightValue, string operater)
         {
-            int value = 0; ;
+            long value = 0; ;
             switch (operater)
             {
                 case "+":
