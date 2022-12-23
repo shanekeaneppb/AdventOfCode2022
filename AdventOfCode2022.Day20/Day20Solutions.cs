@@ -7,7 +7,7 @@ namespace AdventOfCode2022.Day20
         public static void Part1()
         {
             int[] indices = new int[] { 1000, 2000, 3000 };
-            List<int> list = LoadFile("test.txt");
+            List<int> list = LoadFile("input.txt");
             // 3859 is incorrect. Answer is too high
             // 1769 is incorrect. Answer is too low
             int[] originalOrder = list.ToArray();
@@ -36,67 +36,88 @@ namespace AdventOfCode2022.Day20
         private static void DecryptMessage(List<int> list, int[] originalOrder)
         {
             int length = originalOrder.Length;
-            int currentPosition;
-            int currentNumber;
-            int newPosition;
-            int multiplier;
-            for(int i = 0; i < length; i++)
+            int index;
+            int value;
+            for(int i = 0; i < originalOrder.Length; i++)
             {
-                currentNumber = originalOrder[i];
-                currentPosition = list.IndexOf(currentNumber);
-                multiplier = Math.Abs(currentNumber/length);
-                newPosition = ((currentPosition + currentNumber) + (multiplier + 1)*length) % length;
-
-                // Moving right
-                if (currentNumber > 0)
+                value = originalOrder[i];
+                index = list.IndexOf(value);
+                if(value > 0)
                 {
-                    if (newPosition == length - 1)
+                    while(value > 0)
                     {
-                        list.Insert(0, currentNumber);
-                        list.RemoveAt(currentPosition + 1);
+                        index = MoveRight(list, index);
+                        value--;
                     }
-                    else if (newPosition == 0)
+                }
+                else if (value < 0)
+                {
+                    value *= -1;
+                    while (value > 0)
                     {
-                        list.Insert(1, currentNumber);
-                        list.RemoveAt(currentPosition + 1);
-                    }
-                    else if (newPosition > currentPosition)
-                    {
-                        list.Insert(newPosition + 1, currentNumber);
-                        list.RemoveAt(currentPosition);
-                    }
-                    else if (newPosition < currentPosition)
-                    {
-                        list.Insert(newPosition + 1, currentNumber);
-                        list.RemoveAt(currentPosition + 1);
+                        index = MoveLeft(list, index);
+                        value--;
                     }
                 }
 
-                // Moving left
-                if (currentNumber < 0)
-                {
-                    if (newPosition == length - 1)
-                    {
-                        list.Insert(length - 1, currentNumber);
-                        list.RemoveAt(currentPosition);
-                    }
-                    else if (newPosition == 0)
-                    {
-                        list.Add(currentNumber);
-                        list.RemoveAt(currentPosition);
-                    }
-                    else if (newPosition > currentPosition)
-                    {
-                        list.Insert(newPosition, currentNumber);
-                        list.RemoveAt(currentPosition);
-                    }
-                    else if (newPosition < currentPosition)
-                    {
-                        list.Insert(newPosition, currentNumber);
-                        list.RemoveAt(currentPosition + 1);
-                    }
-                }
             }
+        }
+
+        private static int MoveRight(List<int> list, int index)
+        {
+            int temp;
+            if (index == list.Count - 2)
+            {
+                temp = list[index];
+                for (int i = list.Count - 2; i > 0; i--)
+                {
+                    list[i] = list[i - 1];
+                }
+                list[0] = temp;
+                return 0;
+            }
+            if (index == list.Count - 1)
+            {
+                temp = list[index];
+                for (int i = list.Count - 1; i > 1; i--)
+                {
+                    list[i] = list[i - 1];
+                }
+                list[1] = temp;
+                return 1;
+            }
+            temp = list[index];
+            list[index] = list[index + 1];
+            list[index + 1] = temp;
+            return ++index;
+        }
+        private static int MoveLeft(List<int> list, int index)
+        {
+            int temp;
+            if (index == 0)
+            {
+                temp = list[index];
+                for (int i = 0; i < list.Count - 2; i++)
+                {
+                    list[i] = list[i + 1];
+                }
+                list[list.Count - 2] = temp;
+                return list.Count - 2;
+            }
+            if (index == 1)
+            {
+                temp = list[index];
+                for(int i = 1; i < list.Count - 1; i++)
+                {
+                    list[i] = list[i + 1];
+                }
+                list[list.Count - 1] = temp;
+                return list.Count - 1;
+            }
+            temp = list[index];
+            list[index] = list[index - 1];
+            list[index - 1] = temp;
+            return --index;
         }
         private static int GetGroveCoordinatesSum(List<int> list, int[] indices)
         {
