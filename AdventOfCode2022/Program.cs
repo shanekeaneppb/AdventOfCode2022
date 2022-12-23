@@ -12,6 +12,7 @@ using AdventOfCode2022.Day11;
 using AdventOfCode2022.Day12;
 using AdventOfCode2022.Day13;
 using AdventOfCode2022.Day14;
+using AdventOfCode2022.Day21;
 
 namespace AdventOfCode2022
 {
@@ -68,13 +69,17 @@ namespace AdventOfCode2022
             //Console.WriteLine();
             //Day12Solutions.Part2();
 
-            Day13Solutions.Part1();
-            Console.WriteLine();
-            Day13Solutions.Part2();
+            //Day13Solutions.Part1();
+            //Console.WriteLine();
+            //Day13Solutions.Part2();
 
             //Day14Solutions.Part1();
             //Console.WriteLine();
             //Day14Solutions.Part2();
+
+            Day21Solutions.Part1();
+            Console.WriteLine();
+            Day21Solutions.Part2();
         }
     }
   
