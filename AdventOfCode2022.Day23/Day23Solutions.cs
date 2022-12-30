@@ -18,7 +18,13 @@ namespace AdventOfCode2022.Day23
         }
         public static void Part2()
         {
-            Console.WriteLine($"Day 23, Part 2 Solution: ");
+            var elves = LoadElves("input.txt");
+            int i = 0;
+            while(MoveElves(elves, i))
+            {
+                i++;   
+            }
+            Console.WriteLine($"Day 23, Part 2 Solution: {i+1}");
         }
 
         private static HashSet<Point> LoadElves(string file)
@@ -39,7 +45,7 @@ namespace AdventOfCode2022.Day23
             return elves;
         }
 
-        private static void MoveElves(HashSet<Point> elves, int roundNumber)
+        private static bool MoveElves(HashSet<Point> elves, int roundNumber)
         {
             Dictionary<Point, Point> elfvesProposedTiles = new();
             CounterDict proposedTiles = new();
@@ -63,6 +69,7 @@ namespace AdventOfCode2022.Day23
                     elves.Add(pair.Value);
                 }
             }
+            return (elfvesProposedTiles.Count > 0);
         }
 
         private static Point? ProposeTile(Point elf, HashSet<Point> elves, int roundNumber)
