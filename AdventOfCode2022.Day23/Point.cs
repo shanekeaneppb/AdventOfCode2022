@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode2022.Day23
+﻿using System.ComponentModel;
+
+namespace AdventOfCode2022.Day23
 {
     public class Point
     {
