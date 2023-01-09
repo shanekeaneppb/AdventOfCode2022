@@ -41,11 +41,45 @@ namespace AdventOfCode2022.Day24
                         end = new(row, column);
                     else if(c == '#')
                         walls.Add(new(row, column));
-                    else
+                    else if (c != '.')
                         blizzard.Add(new(row, column, c));
                 }
             }
             return (start, end, walls, blizzard);
+        }
+
+        private static void MoveBlizzard(HashSet<Point> blizzard)
+        {
+            foreach(Point p in blizzard)
+            {
+                switch (p.Direction)
+                {
+                    case Direction.E:
+                        p.Column++;
+                        break;
+                    case Direction.W:
+                        p.Column--;
+                        break;
+                    case Direction.N:
+                        p.Row--;
+                        break;
+                    case Direction.S:
+                        p.Row++;
+                        break;
+                }
+            }
+        }
+        private static void MoveNorth(Point point, HashSet<Point> walls)
+        {
+            Point newPoint = new(point.Row - 1, point.Column);
+            if (walls.Contains(newPoint))
+            {
+
+            }
+
+            Point bottomPointInColumn
+
+
         }
     }
 }
