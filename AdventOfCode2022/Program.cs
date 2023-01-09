@@ -13,6 +13,7 @@ using AdventOfCode2022.Day12;
 using AdventOfCode2022.Day13;
 using AdventOfCode2022.Day14;
 using AdventOfCode2022.Day23;
+using AdventOfCode2022.Day25;
 
 namespace AdventOfCode2022
 {
@@ -77,11 +78,26 @@ namespace AdventOfCode2022
             //Console.WriteLine();
             //Day14Solutions.Part2();
 
-            Day23Solutions.Part1();
-            Console.WriteLine();
-            Day23Solutions.Part2();
+            //Day23Solutions.Part1();
+            //Console.WriteLine();
+            //Day23Solutions.Part2();
 
+            Day25Solutions.Part1();
+            Console.WriteLine();
+            Day25Solutions.Part2();
         }
+
+        public static void PrintList(List<int> l = null)
+        {
+            if(l == null)
+            {
+                l = new() { 1, 2, 3 };
+            }
+
+            foreach(var i in l)
+                Console.WriteLine(i);
+        }
+
     }
   
 }

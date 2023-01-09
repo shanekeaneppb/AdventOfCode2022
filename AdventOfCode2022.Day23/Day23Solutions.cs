@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AdventOfCode2022.Day23
 {
-    public partial class Day23Solutions
+    public class Day23Solutions
     {
         public static void Part1()
         {
