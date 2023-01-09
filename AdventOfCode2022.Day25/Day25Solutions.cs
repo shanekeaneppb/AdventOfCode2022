@@ -6,7 +6,7 @@
         {
             var snafuNumbers = LoadInput("input.txt");
             var decimalNumbers = ConvertToDecimal(snafuNumbers);
-            int sum = decimalNumbers.Sum();
+            long sum = decimalNumbers.Sum();
             string snafuNumber = ConvertToSNAFU(sum);
             Console.WriteLine($"Day 25, Part 1 Solution: {snafuNumber}");
         }
@@ -61,9 +61,10 @@
             return decimalNumbers;
         }
 
-        private static string ConvertToSNAFU(int decimalNumber, Dictionary<string, string> coeffs = null)
+        private static string ConvertToSNAFU(long decimalNumber, Dictionary<string, string> coeffs = null)
         {
-            int i = 0, n, remainder;
+            int i = 0;
+            long n, remainder;
             coeffs = (coeffs == null) ? new() : coeffs;
 
             if (decimalNumber == 0)
