@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode2022.Day25
+﻿using System.Numerics;
+
+namespace AdventOfCode2022.Day25
 {
     public class Day25Solutions
     {
@@ -6,9 +8,16 @@
         {
             var snafuNumbers = LoadInput("input.txt");
             var decimalNumbers = ConvertToDecimal(snafuNumbers);
-            long sum = decimalNumbers.Sum();
+            BigInteger sum = 0;
+            foreach (BigInteger i in decimalNumbers)
+            {
+                sum += i;
+            }
             string snafuNumber = ConvertToSNAFU(sum);
             Console.WriteLine($"Day 25, Part 1 Solution: {snafuNumber}");
+
+            // 11=-2122--10-=- incorrect
+            // 11=-2122--10-=-
         }
         public static void Part2()
         {
@@ -27,9 +36,9 @@
             return input;
         }
 
-        private static int ConvertToDecimal(string snafuNumber)
+        private static BigInteger ConvertToDecimal(string snafuNumber)
         {
-            int decimalNumber = 0;
+            BigInteger decimalNumber = 0;
             char c;
             for(int i = 0; i < snafuNumber.Length; i++)
             {
@@ -37,34 +46,34 @@
                 switch (c)
                 {
                     case '1':
-                        decimalNumber += (int)Math.Pow(5, i);
+                        decimalNumber += BigInteger.Pow(5, i);
                         break;
                     case '2':
-                        decimalNumber += 2*(int)Math.Pow(5, i);
+                        decimalNumber += 2* BigInteger.Pow(5, i);
                         break;
                     case '-':
-                        decimalNumber -= (int)Math.Pow(5, i);
+                        decimalNumber -= BigInteger.Pow(5, i);
                         break;
                     case '=':
-                        decimalNumber -= 2 * (int)Math.Pow(5, i);
+                        decimalNumber -= 2 * BigInteger.Pow(5, i);
                         break;
                 }
             }  
             return decimalNumber;
         }
 
-        private static List<int> ConvertToDecimal(List<string> snafuNumbers)
+        private static List<BigInteger> ConvertToDecimal(List<string> snafuNumbers)
         {
-            List<int> decimalNumbers = new();
+            List<BigInteger> decimalNumbers = new();
             foreach(var snafuNumber in snafuNumbers)
                 decimalNumbers.Add(ConvertToDecimal(snafuNumber));
             return decimalNumbers;
         }
 
-        private static string ConvertToSNAFU(long decimalNumber, Dictionary<string, string> coeffs = null)
+        private static string ConvertToSNAFU(BigInteger decimalNumber, Dictionary<string, string> coeffs = null)
         {
             int i = 0;
-            long n, remainder;
+            BigInteger n, remainder;
             coeffs = (coeffs == null) ? new() : coeffs;
 
             if (decimalNumber == 0)
@@ -77,19 +86,21 @@
                 }
                 return snafuNumber;
             }
- 
+            BigInteger d, m;
             while (true)
             {
-                if (MaxNumber(i) >= Math.Abs(decimalNumber))
+                m = MaxNumber(i);
+                d = BigInteger.Abs(decimalNumber) - m; 
+                if (MaxNumber(i) >= BigInteger.Abs(decimalNumber))
                     break;
                 i++;
             }
-            n = (int)Math.Pow(5, i);
+            n = BigInteger.Pow(5, i);
 
             if(decimalNumber > 0)
             {
                 remainder = decimalNumber - n;
-                if(MaxNumber(i - 1) >= Math.Abs(remainder))
+                if(MaxNumber(i - 1) >= BigInteger.Abs(remainder))
                 {
                     coeffs.Add(i.ToString(), "1");
                     return ConvertToSNAFU(remainder, coeffs);
@@ -104,7 +115,7 @@
             else
             {
                 remainder = decimalNumber + n;
-                if (MaxNumber(i - 1) >= Math.Abs(remainder))
+                if (MaxNumber(i - 1) >= BigInteger.Abs(remainder))
                 {
                     coeffs.Add(i.ToString(), "-");
                     return ConvertToSNAFU(remainder, coeffs);
@@ -118,14 +129,14 @@
             }
         }
 
-        private static int MaxNumber(int i)
+        private static BigInteger MaxNumber(int i)
         {
             if(i < 0)
                 return 0;
-            int maxNumber = 0;
+            BigInteger maxNumber = 0;
             for (; i >= 0; i--)
             {
-                maxNumber += 2*(int)Math.Pow(5, i);
+                maxNumber += 2*BigInteger.Pow(5, i);
             }
             return maxNumber;
         }
